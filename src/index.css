@@ -1,34 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-    --bg: #c1e2fc;
-    --text: #e9f1ff;
-    --muted: #98a7bf;
+  --bg: #c1e2fc;
+  --text: #e9f1ff;
+  --muted: #98a7bf;
+  --header-height: 72px;
+  font-family: 'Orbitron', 'Oxanium', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-    font-family: 'Orbitron', 'Oxanium', system-ui, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+  color-scheme: dark;
+  color: var(--text);
+  background-color: var(--bg);
 
-    color-scheme: dark;
-    color: var(--text);
-    background-color: var(--bg);
-
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root {
-    height: 100%;
-    margin: 0;
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
 }
 
 body {
-    display: block;
-    min-width: 100wh;
-    min-height: 100vh;
+  display: block;
+  min-width: 100wh;
+  min-height: 100vh;
 }
 
 .app-root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
