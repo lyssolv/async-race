@@ -2,6 +2,7 @@ import GarageNavbar from "@components/garage/GarageNavbar";
 
 
 export default function Garage() {
+
     return (
         <section className="garage-page">
             <GarageNavbar

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "@shared/components/button";
 import ColorPicker from "@shared/components/ColorPicker";
+import type { Car } from "@shared/types";
 import "./GarageNavbar.css"
-
-export type Car = { id: number; name: string; color: string };
 
 type Props = {
     onStartAll: () => void;
