@@ -1,0 +1,52 @@
+.garage-navbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 2rem;
+    margin: 2rem;
+}
+
+.nav-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.field input[type="text"] {
+    padding: 0.3rem 0;
+    border: 1.5px solid white;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    outline: none;  
+    min-width: 8rem;
+    text-align: left;
+    padding-left: 0.7rem;
+    width: 8rem;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+.field input:focus {
+    outline: none;
+    border-color: #ba319f;
+}
+
+.field input::placeholder {
+    color: #ba319f;
+}
+
+.nav-group button {
+    padding: 0.6rem;
+    border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+    .garage-navbar {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+   }
+    .nav-group { justify-content: flex-start; }
+}

@@ -16,10 +16,12 @@ export default function Button({
     children,
     ...rest 
 }: ButtonProps) {
-    const base = 
-        "inline-flex w-auto items-center justify-center font-semibold rounded-lg " +
-        "transition disabled:opacity-60 disabled:cursor-not-allowed appearance-none" +
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/40";
+    const base = [
+        "inline-flex w-auto items-center justify-center font-semibold",
+        "transition disabled:cursor-not-allowed appearance-none bg-transparent",
+        "focus:outline-none cursor-pointer rounded-lg",
+        ].join(" ");
+
     const sizes = {
         md: "h-10 px-4 text-sm",
         sm: "h-8 px-2 text-xs",
@@ -27,10 +29,10 @@ export default function Button({
     };
 
     const colors = {
-        green:  "border-2 border-[#22c55e] text-[#22c55e]",
-        purple: "border-2 border-[#8b5cf6] text-[#8b5cf6]",
-        blue:   "border-2 border-[#3b82f6] text-[#3b82f6]",
-        yellow: "border-2 border-[#eab308] text-[#eab308]",
+        green:  "border-2 border-[#30C0B7] text-[#30C0B7]",
+        purple: "border-2 border-[#E977F5] text-[#E977F5]",
+        blue:   "border-2 border-[#3DE0FC] text-[#3DE0FC]",
+        yellow: "border-2 border-[#ffff79] text-[#ffff79]",
         white:  "border-2 border-[#d4d4d8] text-[#d4d4d8]",
     };
 
