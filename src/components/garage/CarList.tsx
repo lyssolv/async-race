@@ -1,5 +1,6 @@
 import CarCard from './CarCard';
 import type { Car } from '@utils/types';
+import "./CarList.css";
 
 type Props = {
   cars: Car[];
