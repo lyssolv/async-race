@@ -1,28 +1,28 @@
-import styles from "./ColorPicker.module.css";
+import styles from './ColorPicker.module.css';
 
 type Props = {
-    value: string;
-    onChange: (hex: string) => void;
-    disabled?: boolean;
-    className?: string;
-    ariaLabel?: string;
+  value: string;
+  onChange: (hex: string) => void;
+  disabled?: boolean;
+  className?: string;
+  ariaLabel?: string;
 };
 
-export default function ColorPicker({ 
-    value, 
-    onChange, 
-    disabled,
-    className = "",
-    ariaLabel = "Choose color",
+export default function ColorPicker({
+  value,
+  onChange,
+  disabled,
+  className = '',
+  ariaLabel = 'Choose color',
 }: Props) {
-    return (
-        <input
-            type="color"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            disabled={disabled}
-            aria-label={ariaLabel}
-            className={[styles.root, className].join(" ").trim()}
-        />
-    );
+  return (
+    <input
+      type="color"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      className={[styles.root, className].join(' ').trim()}
+    />
+  );
 }

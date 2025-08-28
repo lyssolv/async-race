@@ -1,18 +1,18 @@
 type Props = { color: string; className?: string };
 
-export default function CarIcon({ color, className = "" }: Props) {
-    return (
-        <svg
-            viewBox="0 0 600 298"
-            role="img"
-            aria-label="Car"
-            className={className}
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M339.918 1.45271C336.098 3.11271 336.023 3.86871 338.668
+export default function CarIcon({ color, className = '' }: Props) {
+  return (
+    <svg
+      viewBox="0 0 600 298"
+      role="img"
+      aria-label="Car"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M339.918 1.45271C336.098 3.11271 336.023 3.86871 338.668
                 13.9617C339.749 18.0867 340.641 22.0247 340.651 22.7117C340.664 23.6927
                 331.563 23.9607 298.418 23.9567C255.567 23.9517 238.085 23.3377 193.168
                 20.2607C178.314 19.2427 155.79 18.5377 137.668 18.5227C110.828 18.5017 105.488 18.7677 93.168
@@ -137,8 +137,8 @@ export default function CarIcon({ color, className = "" }: Props) {
                 256.618 277.668 256.056C302.143 255.873 331.281 256.059 342.418 256.47C362.502 257.211
                 362.668 257.2 362.668 255.136C362.668 252.599 358.158 250.427 341.267 244.827C320.913
                 238.08 288.918 232.467 256.718 229.995C241.839 228.852 191.533 228.843 176.668 229.979Z"
-                fill={color}
-            />
-        </svg>
-    );
+        fill={color}
+      />
+    </svg>
+  );
 }

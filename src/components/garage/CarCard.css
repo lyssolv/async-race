@@ -1,72 +1,74 @@
 .car-row {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border: 2px solid #77e2f7;
-    border-radius: 12px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #77e2f7;
+  border-radius: 12px;
 }
-.car-row.selected { 
-    outline: 2px solid #ffffff;
+.car-row.selected {
+  outline: 2px solid #ffffff;
 }
 
 .car-tile {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
 }
 
-.tile-actions, .tile-drive { 
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+.tile-actions,
+.tile-drive {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .tile-car {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.tile-car svg { 
-    width: 100%; 
-    max-width: 220px;
-    height: auto; 
+.tile-car svg {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
 }
 
 .car-track {
-    position: relative;
-    min-height: 90px;
-    overflow: hidden;
-    align-items: center;
+  position: relative;
+  min-height: 90px;
+  overflow: hidden;
+  align-items: center;
 }
 
 .car-name {
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    text-transform: uppercase;
-    font-size: 22px;
-    font-family: sans-serif;
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  text-transform: uppercase;
+  font-size: 22px;
+  font-family: sans-serif;
 }
 
-.start, .finish {
-    position: absolute;
-    top: 0;
-    background: repeating-linear-gradient(to bottom, #080044 0 7px, #fff 7px 14px);
-    width: 14px;
-    height: 100%;
-    opacity: 0.3;
+.start,
+.finish {
+  position: absolute;
+  top: 0;
+  background: repeating-linear-gradient(to bottom, #080044 0 7px, #fff 7px 14px);
+  width: 14px;
+  height: 100%;
+  opacity: 0.3;
 }
 
 .start {
-    left: 0;
+  left: 0;
 }
 
 .finish {
-    right: 0;
+  right: 0;
 }
 
-.car-tile button{
-    border-radius: 6px;
+.car-tile button {
+  border-radius: 6px;
 }

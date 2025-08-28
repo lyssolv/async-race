@@ -1,13 +1,13 @@
 .car-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
 }
 
 .empty-garage {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.1rem;
-    color: #e9e28f;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #e9e28f;
 }
