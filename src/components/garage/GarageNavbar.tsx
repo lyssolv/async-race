@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Button from '@shared/components/button';
-import ColorPicker from '@shared/components/ColorPicker';
-import type { Car } from '@utils/types';
+import Button from '@/shared/components/button';
+import ColorPicker from '@/shared/components/ColorPicker';
+import type { Car } from '@/utils/types';
 import './GarageNavbar.css';
 
 type Props = {

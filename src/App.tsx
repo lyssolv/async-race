@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Header from '@components/header/Header';
-import Garage from '@pages/Garage';
-import Winners from '@pages/Winners';
+import Header from '@/components/header/Header';
+import Garage from '@/pages/Garage';
+import Winners from '@/pages/Winners';
 import './App.css';
 
 function App() {

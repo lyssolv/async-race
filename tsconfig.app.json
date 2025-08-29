@@ -27,15 +27,7 @@
     /* Routing */
     "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@api/*": ["api/*"],
-      "@pages/*": ["pages/*"],
-      "@redux/*": ["redux/*"],
-      "@routes/*": ["routes/*"],
-      "@assets/*": ["assets/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
-      "@shared/*": ["shared/*"]
+      "@/*": ["*"]
     }
   },
 

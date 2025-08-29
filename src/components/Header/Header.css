@@ -25,8 +25,8 @@
 }
 
 .two {
-  color: #834390;
-  border: 0.2rem solid #834390;
+  color: #9C19E0;
+  border: 0.2rem solid #a61df0;
   border-radius: 0.6rem;
 }
 
@@ -38,13 +38,9 @@
   flex: 1;
 }
 
-.title-async {
-  color: #7d1187;
-  display: block;
-}
-
+.title-async, 
 .title-race {
-  color: #3609b1;
+  color: #FF5DA2;
   display: block;
 }
 
