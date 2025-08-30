@@ -14,8 +14,8 @@ type Props = {
 
   isStarting?: Flags;
   isDriving?: Flags;
-  isStopping?: Flags;
   isDeleting?: Flags;
+  isFinished?: Flags;
   raceLocked?: boolean;
 };
 
@@ -28,8 +28,8 @@ export default function CarList({
   onStop,
   isStarting = {},
   isDriving = {},
-  isStopping = {},
   isDeleting = {},
+  isFinished = {},
   raceLocked = false,
 }: Props) {
   if (cars.length === 0) {
@@ -38,21 +38,20 @@ export default function CarList({
   return (
     <ul className="car-list">
       {cars.map((car) => (
-        <li key={car.id}>
-          <CarCard
-            car={car}
-            selected={selectedId === car.id}
-            onSelect={() => onSelect(car.id)}
-            onDelete={() => onDelete(car.id)}
-            onStart={() => onStart(car.id)}
-            onStop={() => onStop(car.id)}
-            isStarting={!!isStarting[car.id]}
-            isDriving={!!isDriving[car.id]}
-            isStopping={!!isStopping[car.id]}
-            isDeleting={!!isDeleting[car.id]}
-            raceLocked={raceLocked}
-          />
-        </li>
+        <CarCard
+          key={car.id}
+          car={car}
+          selected={selectedId === car.id}
+          onSelect={() => onSelect(car.id)}
+          onDelete={() => onDelete(car.id)}
+          onStart={() => onStart(car.id)}
+          onStop={() => onStop(car.id)}
+          isStarting={!!isStarting[car.id]}
+          isDriving={!!isDriving[car.id]}
+          isDeleting={!!isDeleting[car.id]}
+          raceLocked={raceLocked}
+          isFinished={!!isFinished[car.id]}
+        />
       ))}
     </ul>
   );
