@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import GarageNavbar from '@/components/garage/GarageNavbar';
 import CarList from '@/components/garage/CarList';
 import Pagination from '@/shared/components/Pagination';
@@ -17,6 +17,8 @@ export default function Garage() {
   const [isStarting, setIsStarting] = useState<Record<number, boolean>>({});
   const [isDriving, setIsDriving] = useState<Record<number, boolean>>({});
   const [isFinished, setIsFinished] = useState<Record<number, boolean>>({});
+  const [raceLocked, setRaceLocked] = useState(false);
+  const [needsReset, setNeedsReset] = useState(false);
 
   const pageCount = Math.max(1, Math.ceil(total / GARAGE_PAGE_SIZE));
 
@@ -61,26 +63,19 @@ export default function Garage() {
     if (!tile || !track || !carEl) return;
     try {
       setIsStarting((state) => ({ ...state, [id]: true }));
-      console.log('before', { start: !!isStarting[id] });
+
       const { velocity, distance } = await startEngine(id);
       const durationMs = Math.max(1, Math.round(distance / velocity));
 
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: true }));
-      console.log('flags during drive', {
-        start: !!isStarting[id],
-        drive: !!isDriving[id],
-        fin: !!isFinished[id],
-      });
+
       carEl.style.transition = `${durationMs}ms linear`;
 
       setTimeout(() => {
         const carWrapperEl = document.getElementById(`car-wrapper-${id}`);
-
         const carWrapperElPos = carWrapperEl?.getBoundingClientRect()!;
-
         if (!carWrapperElPos) return;
-
         const carWrapperElEnd = carWrapperElPos.left + carWrapperElPos.width;
 
         const carEl = document.getElementById(`car-${id}`);
@@ -91,7 +86,11 @@ export default function Garage() {
         const carTransitionEndPos = carWrapperElEnd - (carElPos.left + carElPos.width) - 30;
         carEl.style.transform = `translateX(${carTransitionEndPos}px)`;
       }, 0);
+      const time1 = performance.now();
       await drive(id);
+      const time2 = performance.now();
+      const timeSec = +((time2 - time1) / 1000).toFixed(2);
+      raceTimesRef.current[id] = timeSec;
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: true }));
     } catch (e) {
@@ -115,8 +114,50 @@ export default function Garage() {
     }
   }
 
-  const startRaceForPage = () => console.log('Start race for page', page);
-  const resetRaceForPage = () => console.log('Reset race for page', page);
+  const carsRef = useRef<Car[]>(cars);
+  useEffect(() => {
+    carsRef.current = cars;
+  }, [cars]);
+  const finishedRef = useRef<Record<number, boolean>>({});
+  useEffect(() => {
+    finishedRef.current = isFinished;
+  }, [isFinished]);
+  const raceTimesRef = useRef<Record<number, number>>({});
+
+  async function startRaceForPage() {
+    if (raceLocked || needsReset) return;
+    setRaceLocked(true);
+
+    cars.forEach((car) => handleStartCar(car.id));
+
+    const checkWinner = () => {
+      const winner = carsRef.current.find((car) => finishedRef.current[car.id]);
+      if (winner) {
+        const raceTime = raceTimesRef.current[winner.id];
+        alert(`🏆 Winner: ${winner.name} Time: ${raceTime}s`);
+        setRaceLocked(false);
+        setNeedsReset(true);
+        return;
+      }
+      requestAnimationFrame(checkWinner);
+    };
+    requestAnimationFrame(checkWinner);
+  }
+
+  function resetRaceForPage() {
+    setRaceLocked(false);
+    setNeedsReset(false);
+
+    cars.forEach((car) => {
+      const { carEl } = getRowElems(car.id);
+      if (carEl) resetCarPosition(carEl);
+
+      setIsStarting((s) => ({ ...s, [car.id]: false }));
+      setIsDriving((s) => ({ ...s, [car.id]: false }));
+      setIsFinished((s) => ({ ...s, [car.id]: false }));
+      stopEngine(car.id).catch(() => {});
+    });
+  }
 
   const handleGenerate100 = async () => {
     const payloads = generate100Cars();
@@ -135,6 +176,8 @@ export default function Garage() {
         onStartAll={startRaceForPage}
         onResetAll={resetRaceForPage}
         onGenerate100={handleGenerate100}
+        raceLocked={raceLocked}
+        needsReset={needsReset}
         onCreate={handleCreate}
         selected={cars.find((c) => c.id === selectedId) || null}
         onUpdateSelected={handleUpdateSelected}
@@ -150,6 +193,7 @@ export default function Garage() {
         isStarting={isStarting}
         isDriving={isDriving}
         isFinished={isFinished}
+        raceLocked={raceLocked}
       />
       <Pagination page={page} pageCount={pageCount} onChange={setPage} label="Garage pagination" />
     </section>

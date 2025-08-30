@@ -3,3 +3,10 @@ export type Car = {
   name: string;
   color: string;
 };
+
+export type Winner = {
+  id: number;
+  name: string;
+  wins: number;
+  time: number;
+};

@@ -14,7 +14,6 @@ type Props = {
 
   isStarting?: Flags;
   isDriving?: Flags;
-  isDeleting?: Flags;
   isFinished?: Flags;
   raceLocked?: boolean;
 };
@@ -28,7 +27,6 @@ export default function CarList({
   onStop,
   isStarting = {},
   isDriving = {},
-  isDeleting = {},
   isFinished = {},
   raceLocked = false,
 }: Props) {
@@ -48,7 +46,6 @@ export default function CarList({
           onStop={() => onStop(car.id)}
           isStarting={!!isStarting[car.id]}
           isDriving={!!isDriving[car.id]}
-          isDeleting={!!isDeleting[car.id]}
           raceLocked={raceLocked}
           isFinished={!!isFinished[car.id]}
         />

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '@/shared/components/button';
 import ColorPicker from '@/shared/components/ColorPicker';
 import type { Car } from '@/utils/types';
+import { MAX_CAR_NAME_LEN } from '@/utils/constants/index';
 import './GarageNavbar.css';
 
 type Props = {
@@ -14,6 +15,8 @@ type Props = {
   onUpdateSelected: (name: string, color: string) => void;
   startDisabled?: boolean;
   resetDisabled?: boolean;
+  raceLocked?: boolean;
+  needsReset?: boolean;
 };
 
 export default function GarageNavbar({
@@ -24,7 +27,8 @@ export default function GarageNavbar({
   selected,
   onUpdateSelected,
   startDisabled = false,
-  resetDisabled = false,
+  raceLocked = false,
+  needsReset = false,
 }: Props) {
   const [createName, setCreateName] = useState('');
   const [createColor, setCreateColor] = useState('#30C0B7');
@@ -42,8 +46,8 @@ export default function GarageNavbar({
     }
   }, [selected]);
 
-  const validCreate = createName.trim().length > 0 && createName.trim().length <= 32;
-  const validUpdate = updateName.trim().length > 0 && updateName.trim().length <= 32;
+  const validCreate = createName.trim().length > 0 && createName.trim().length <= MAX_CAR_NAME_LEN;
+  const validUpdate = updateName.trim().length > 0 && updateName.trim().length <= MAX_CAR_NAME_LEN;
 
   const handleCreate = () => {
     if (!validCreate) return;
@@ -64,12 +68,12 @@ export default function GarageNavbar({
         <Button
           color="green"
           onClick={onStartAll}
-          disabled={startDisabled}
+          disabled={raceLocked || needsReset}
           aria-label="Start race for all cars"
         >
           RACE
         </Button>
-        <Button onClick={onResetAll} disabled={resetDisabled} aria-label="Reset race for all cars">
+        <Button onClick={onResetAll} disabled={raceLocked} aria-label="Reset race for all cars">
           RESET
         </Button>
       </div>
@@ -118,7 +122,12 @@ export default function GarageNavbar({
       </div>
       {/* Generate Cars*/}
       <div className="nav-group">
-        <Button color="green" onClick={onGenerate100} aria-label="Generate one hundred random cars">
+        <Button
+          color="green"
+          onClick={onGenerate100}
+          aria-label="Generate one hundred random cars"
+          disabled={raceLocked}
+        >
           GENERATE CARS
         </Button>
       </div>

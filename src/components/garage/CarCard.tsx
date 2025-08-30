@@ -13,7 +13,6 @@ type Props = {
 
   isStarting?: boolean;
   isDriving?: boolean;
-  isDeleting?: boolean;
   raceLocked?: boolean;
   isFinished?: boolean;
 };
@@ -27,13 +26,12 @@ const CarCard = ({
   onStop,
   isStarting = false,
   isDriving = false,
-  isDeleting = false,
   isFinished = false,
   raceLocked = false,
 }: Props) => {
   const disableStart = raceLocked || isStarting || isDriving || isFinished;
   const disableStop = raceLocked || (!isStarting && !isDriving && !isFinished);
-  const disableCRUD = raceLocked || isDeleting;
+  const disableCRUD = raceLocked;
 
   return (
     <li id={`car-wrapper-${car.id}`}>
@@ -50,7 +48,7 @@ const CarCard = ({
               aria-label="Select car for editing"
               disabled={disableCRUD}
             >
-              {selected ? 'UNSELECT' : 'SELECT'}
+              {selected ? 'UNSELECT' : 'SELECT'}  
             </Button>
             <Button onClick={onDelete} aria-label="Delete car" disabled={disableCRUD}>
               REMOVE
