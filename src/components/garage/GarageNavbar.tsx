@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from '@/shared/components/button';
-import ColorPicker from '@/shared/components/ColorPicker';
+import ColorPicker from '@/shared/components/colorPicker';
 import type { Car } from '@/utils/types';
 import { MAX_CAR_NAME_LEN } from '@/utils/constants/index';
 import './GarageNavbar.css';

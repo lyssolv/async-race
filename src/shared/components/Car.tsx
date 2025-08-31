@@ -1,5 +1,5 @@
 import type { Car as TCar } from '@/utils/types';
-import CarIcon from './CarIcon';
+import CarIcon from './carIcon';
 
 interface IProps {
   car: TCar;

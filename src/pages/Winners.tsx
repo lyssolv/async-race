@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import WinnersTable from '@/components/winners/WinnersTable';
+import WinnersTable from '@/components/winners/winnersTable';
 import { listWinnersWithCars } from '@/api/winners';
 import type { WinnerRow } from '@/utils/types';
-import Pagination from '@/shared/components/Pagination';
+import Pagination from '@/shared/components/pagination';
 import { WINNERS_PAGE_SIZE } from '@/utils/constants';
 import '@/components/winners/Winners.css';
 

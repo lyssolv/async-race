@@ -1,4 +1,4 @@
-import CarCard from './CarCard';
+import CarCard from './carCard';
 import type { Car } from '@/utils/types';
 import './CarList.css';
 

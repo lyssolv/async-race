@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import GarageNavbar from '@/components/garage/GarageNavbar';
-import CarList from '@/components/garage/CarList';
-import Pagination from '@/shared/components/Pagination';
+import GarageNavbar from '@/components/garage/garageNavbar';
+import CarList from '@/components/garage/carList';
+import Pagination from '@/shared/components/pagination';
 import type { Car } from '@/utils/types';
 import { GARAGE_PAGE_SIZE } from '@/utils/constants';
 import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
