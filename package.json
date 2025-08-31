@@ -7,16 +7,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "postbuild": "shx cp dist/index.html dist/404.html",
     "lint": "eslint src/**/*.{ts,tsx}",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "ci:format": "prettier --check .",
-    "predeploy": "npm run build && node scripts/copy-404.cjs",
-    "deploy": "gh-pages -d dist"
+    "ci:format": "prettier --check ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
-    "gh-pages": "^6.3.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-redux": "^9.2.0",
