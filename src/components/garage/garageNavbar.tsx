@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Button from '@/shared/components/button11';
-import ColorPicker from '@/shared/components/colorPicker11';
+import Button from '@/shared/components/button';
+import ColorPicker from '@/shared/components/colorPicker';
 import type { Car } from '@/utils/types';
 import { MAX_CAR_NAME_LEN } from '@/utils/constants/index';
-import './garageNavbar11.css';
+import './garageNavbar.css';
 
 type Props = {
   onStartAll: () => void;

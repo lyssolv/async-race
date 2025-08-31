@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
-import GarageNavbar from '@/components/garage/garageNavbar11';
-import CarList from '@/components/garage/carList11';
+import GarageNavbar from '@/components/garage/garageNavbar';
+import CarList from '@/components/garage/carList';
 import type { Car } from '@/utils/types';
 import { GARAGE_PAGE_SIZE } from '@/utils/constants';
 import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
@@ -8,7 +8,7 @@ import { generate100Cars } from '@/utils/random';
 import { startEngine, drive, stopEngine } from '@/api/engine';
 import { getRowElems, resetCarPosition } from '@/utils/engine';
 import { insertWinners } from '@/api/winners';
-import Pagination from '@/shared/components/pagination11';
+import Pagination from '@/shared/components/pagination';
 
 export default function Garage() {
   const [cars, setCars] = useState<Car[]>([]);

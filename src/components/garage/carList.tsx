@@ -1,6 +1,6 @@
-import CarCard from './carCard11';
+import CarCard from './carCard';
 import type { Car } from '@/utils/types';
-import './carList11.css';
+import './carList.css';
 
 type Flags = Record<number, boolean>;
 

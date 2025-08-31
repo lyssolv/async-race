@@ -1,6 +1,6 @@
-import CarIcon from '@/shared/components/carIcon11';
+import CarIcon from '@/shared/components/carIcon';
 import type { WinnerRow } from '@/utils/types';
-import './winners11.css';
+import './winners.css';
 
 type SortKey = 'wins' | 'time';
 type SortOrder = 'asc' | 'desc';

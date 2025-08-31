@@ -1,4 +1,4 @@
-import styles from './colorPicker11.module.css';
+import styles from './colorPicker.module.css';
 
 type Props = {
   value: string;
