@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "ci:format": "prettier --check .",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
