@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import WinnersTable from '@/components/winners/winnersTable';
+import WinnersTable from '@/components/winners/winnersTable11';
 import { listWinnersWithCars } from '@/api/winners';
 import type { WinnerRow } from '@/utils/types';
-import Pagination from '@/shared/components/pagination';
+import Pagination from '@/shared/components/pagination11';
 import { WINNERS_PAGE_SIZE } from '@/utils/constants';
-import '@/components/winners/Winners.css';
+import '@/components/winners/winners11.css';
 
 type SortKey = 'wins' | 'time';
 type SortOrder = 'asc' | 'desc';

@@ -1,7 +1,7 @@
 import type { Car as TCar } from '@/utils/types';
-import Button from '@/shared/components/button';
-import Car from '@/shared/components/car';
-import './CarCard.css';
+import Button from '@/shared/components/button11';
+import Car from '@/shared/components/car11';
+import './carCard11.css';
 
 type Props = {
   car: TCar;

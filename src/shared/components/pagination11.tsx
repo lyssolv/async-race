@@ -1,5 +1,5 @@
 import { MAX_PAGE_VISIBLE } from '@/utils/constants';
-import './Pagination.css';
+import './pagination11.css';
 
 type Props = {
   page: number;
