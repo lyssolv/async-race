@@ -21,48 +21,48 @@ export default function WinnersTable({ rows, sort, order, onSortChange }: Props)
   };
   const arrow = (key: SortKey) => (sort === key ? (order === 'asc' ? '▲' : '▼') : '');
   if (rows.length === 0) {
-    return <div className="winners-empty">Run a race!</div>;
+    return <div className="winners-empty">No car won yet</div>;
   }
   return (
-    <div className="winners-table-wrap">
-      <table className="winners-table" aria-label="Winners table">
-        <thead>
-          <tr>
-            <th className="w-col-no">№</th>
-            <th className="w-col-car">Car</th>
-            <th className="w-col-name">Name</th>
-            <th
-              className="w-col-sort"
-              onClick={() => handleSort('wins')}
-              role="button"
-              tabIndex={0}
-            >
-              Wins <span className="sort-arrow">{arrow('wins')}</span>
-            </th>
-            <th
-              className="w-col-sort"
-              onClick={() => handleSort('time')}
-              role="button"
-              tabIndex={0}
-            >
-              Best time (s) <span className="sort-arrow">{arrow('time')}</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id}>
-              <td>{row.no}</td>
-              <td>
-                <CarIcon color={row.color} />
-              </td>
-              <td>{row.name}</td>
-              <td>{row.wins}</td>
-              <td>{row.time}</td>
+      <div className="winners-table-wrap">
+        <table className="winners-table" aria-label="Winners table">
+          <thead className="winners-navbar">
+            <tr>
+              <th className="w-col-no">№</th>
+              <th className="w-col-car">CAR</th>
+              <th className="w-col-name">NAME</th>
+              <th
+                className="w-col-sort"
+                onClick={() => handleSort('wins')}
+                role="button"
+                tabIndex={0}
+              >
+                WINS <span className="sort-arrow">{arrow('wins')}</span>
+              </th>
+              <th
+                className="w-col-sort"
+                onClick={() => handleSort('time')}
+                role="button"
+                tabIndex={0}
+              >
+                BEST TIME (SEC) <span className="sort-arrow">{arrow('time')}</span>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.id}>
+                <td>{row.id}</td>
+                <td>
+                  <CarIcon color={row.color} />
+                </td>
+                <td>{row.name}</td>
+                <td>{row.wins}</td>
+                <td>{row.time}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
   );
 }

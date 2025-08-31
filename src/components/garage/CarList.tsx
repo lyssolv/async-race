@@ -31,7 +31,7 @@ export default function CarList({
   raceLocked = false,
 }: Props) {
   if (cars.length === 0) {
-    return <div className="empty-garage">Don't just stare at it, create it</div>;
+    return <div className="empty-garage">Cars under repair</div>;
   }
   return (
     <ul className="car-list">

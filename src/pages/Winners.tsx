@@ -47,7 +47,7 @@ export default function Winners() {
   return (
     <section className="winners-page">
       <header className="winners-header">
-        <h1>Winners</h1>
+        <h1>WINNERS</h1>
       </header>
 
       <WinnersTable rows={rows} sort={sort} order={order} onSortChange={handleSortChange} />

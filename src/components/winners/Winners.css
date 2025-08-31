@@ -1,69 +1,100 @@
 .winners-page {
   display: grid;
-  gap: 12px;
 }
 
-.winners-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.winners-meta {
-  display: flex;
-  gap: 16px;
-  font-size: 0.9rem;
-  opacity: 0.8;
+.winners-header h1 {
+  padding-left: 60px;
+  font-size: 35px;
+  font-weight: lighter;
 }
 
 .winners-empty {
-  padding: 24px;
+  padding: 5.5rem 2rem;
   text-align: center;
   opacity: 0.7;
-  border: 1px dashed rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-}
-
-.winners-table-wrap {
-  overflow-x: auto;
+  font-size: 3.6rem;
+  color: #24e7f2;
 }
 
 .winners-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 640px;
+}
+.winners-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.winners-navbar {
+  border: 2px solid #fa03a2;
 }
 
 .winners-table th,
 .winners-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 25px;
   text-align: left;
   vertical-align: middle;
   white-space: nowrap;
 }
 
-.winners-table thead th {
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.03);
-}
-
 .w-col-no {
+  color: #ffff79;
   width: 56px;
 }
 .w-col-car {
+  color: #9c19e0;
   width: 80px;
 }
 .w-col-name {
-  min-width: 200px;
+  min-width: 150px;
+  color: #9c19e0;
 }
 .w-col-sort {
-  cursor: pointer;
+  color: #30c0b7;
+  padding-right: 20px;
   user-select: none;
 }
 
 .sort-arrow {
-  margin-left: 6px;
+  margin-left: 10px;
   opacity: 0.6;
   font-size: 0.85em;
+}
+
+@media (max-width: 560px) {
+  .winners-header h1 {
+    padding-left: 16px;
+    font-size: 26px;
+  }
+  .winners-table th,
+  .winners-table td {
+    padding: 5px 10px;
+    font-size: 0.95rem;
+  }
+
+  .w-col-no {
+    width: 30px;
+  }
+  .w-col-car {
+    width: 50px;
+  }
+  .w-col-name {
+    width: 20px;
+  }
+
+  .w-col-sort {
+    padding-right: 12px;
+    width: 30px;
+  }
+  .sort-arrow {
+    margin-left: 6px;
+  }
+
+  .winners-table svg {
+    width: 56px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+  }
 }

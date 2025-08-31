@@ -71,15 +71,15 @@ export async function listWinnersWithCars(
 
   const baseNo = (page - 1) * limit;
 
-  const rows: WinnerRow[] = winners.map((w, i) => {
-    const car = carMap.get(w.id);
+  const rows: WinnerRow[] = winners.map((winner, i) => {
+    const car = carMap.get(winner.id);
     return {
       no: baseNo + i + 1,
-      id: w.id,
-      name: car?.name ?? `#${w.id}`,
+      id: winner.id,
+      name: car?.name ?? `#${winner.id}`,
       color: car?.color ?? '#000000',
-      wins: w.wins,
-      time: w.time,
+      wins: winner.wins,
+      time: winner.time,
     };
   });
 
