@@ -7,9 +7,6 @@
   border: 1.5px solid #77e2f7;
   border-radius: 12px;
 }
-.car-row.selected {
-  outline: 2px solid #ffffff;
-}
 
 .car-tile {
   display: flex;

@@ -8,6 +8,7 @@ import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
 import { generate100Cars } from '@/utils/random';
 import { startEngine, drive, stopEngine } from '@/api/engine';
 import { getRowElems, resetCarPosition } from '@/utils/engine';
+import { insertWinners } from '@/api/winners';
 
 export default function Garage() {
   const [cars, setCars] = useState<Car[]>([]);
@@ -130,11 +131,14 @@ export default function Garage() {
 
     cars.forEach((car) => handleStartCar(car.id));
 
-    const checkWinner = () => {
+    const checkWinner = async () => {
       const winner = carsRef.current.find((car) => finishedRef.current[car.id]);
       if (winner) {
         const raceTime = raceTimesRef.current[winner.id];
         alert(`🏆 Winner: ${winner.name} Time: ${raceTime}s`);
+        try {
+          await insertWinners(winner.id, raceTime);
+        } catch (e) {}
         setRaceLocked(false);
         setNeedsReset(true);
         return;

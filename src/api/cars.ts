@@ -1,6 +1,6 @@
 import { api } from './http';
 import type { Car } from '@/utils/types';
-import { BASE_URL } from '@/utils/constants';
+import { BASE_URL } from '@/utils/constants/index';
 
 export async function listCars(page = 1, limit = 7): Promise<{ cars: Car[]; total: number }> {
   const url = `${BASE_URL}/garage?_page=${page}&_limit=${limit}`;

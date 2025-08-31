@@ -48,7 +48,7 @@ const CarCard = ({
               aria-label="Select car for editing"
               disabled={disableCRUD}
             >
-              {selected ? 'UNSELECT' : 'SELECT'}  
+              SELECT
             </Button>
             <Button onClick={onDelete} aria-label="Delete car" disabled={disableCRUD}>
               REMOVE

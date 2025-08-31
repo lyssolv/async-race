@@ -13,8 +13,6 @@ type Props = {
   onCreate: (name: string, color: string) => void;
   selected: Car | null;
   onUpdateSelected: (name: string, color: string) => void;
-  startDisabled?: boolean;
-  resetDisabled?: boolean;
   raceLocked?: boolean;
   needsReset?: boolean;
 };
@@ -26,7 +24,6 @@ export default function GarageNavbar({
   onCreate,
   selected,
   onUpdateSelected,
-  startDisabled = false,
   raceLocked = false,
   needsReset = false,
 }: Props) {
@@ -85,7 +82,7 @@ export default function GarageNavbar({
             value={createName}
             onChange={(e) => setCreateName(e.target.value)}
             placeholder="TYPE CAR BRAND"
-            maxLength={32}
+            maxLength={MAX_CAR_NAME_LEN}
           />
         </label>
 
@@ -105,18 +102,14 @@ export default function GarageNavbar({
             value={updateName}
             onChange={(e) => setUpdateName(e.target.value)}
             placeholder="TYPE CAR BRAND"
-            maxLength={32}
+            maxLength={MAX_CAR_NAME_LEN}
             disabled={!selected}
           />
         </label>
         <label className="field">
           <ColorPicker value={updateColor} onChange={setUpdateColor} disabled={!selected} />
         </label>
-        <Button
-          onClick={handleUpdate}
-          disabled={!selected || !validUpdate}
-          aria-label="Update selected car"
-        >
+        <Button onClick={handleUpdate} disabled={!selected} aria-label="Update selected car">
           UPDATE
         </Button>
       </div>
