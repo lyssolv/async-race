@@ -10,7 +10,8 @@
     "lint": "eslint src/**/*.{ts,tsx}",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "ci:format": "prettier --check ."
+    "ci:format": "prettier --check .",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@/reduxjs/toolkit": "^2.8.2",
