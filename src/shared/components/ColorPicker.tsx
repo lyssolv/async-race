@@ -19,7 +19,7 @@ export default function ColorPicker({
     <input
       type="color"
       value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
+      onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
       aria-label={ariaLabel}
       className={[styles.root, className].join(' ').trim()}

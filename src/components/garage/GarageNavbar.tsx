@@ -80,7 +80,7 @@ export default function GarageNavbar({
           <input
             type="text"
             value={createName}
-            onChange={(e) => setCreateName(e.currentTarget.value)}
+            onChange={(e) => setCreateName(e.target.value)}
             placeholder="TYPE CAR BRAND"
             maxLength={MAX_CAR_NAME_LEN}
           />
@@ -100,7 +100,7 @@ export default function GarageNavbar({
           <input
             type="text"
             value={updateName}
-            onChange={(e) => setUpdateName(e.currentTarget.value)}
+            onChange={(e) => setUpdateName(e.target.value)}
             placeholder="TYPE CAR BRAND"
             maxLength={MAX_CAR_NAME_LEN}
             disabled={!selected}
