@@ -1,4 +1,4 @@
-# Async Race :[Deployment link](https://lyssolv.github.io/async-race/)
+# Async Race: [Deployment link](https://lyssolv.github.io/async-race/)
 
 ## Checklist 370/400 pts
 
