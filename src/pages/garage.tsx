@@ -7,7 +7,7 @@ import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
 import { generate100Cars } from '@/utils/random';
 import { startEngine, drive, stopEngine } from '@/api/engine';
 import { getRowElems, resetCarPosition } from '@/utils/engine';
-import { insertWinners } from '@/api/winners';
+import { insertWinners, deleteWinner } from '@/api/winners';
 import Pagination from '@/shared/components/pagination';
 
 export default function Garage() {
@@ -49,6 +49,7 @@ export default function Garage() {
 
   const handleDelete = async (id: number) => {
     await deleteCar(id);
+    await deleteWinner(id).catch(() => {});
     if (selectedId === id) setSelectedId(null);
     await fetchPage(page);
     if (cars.length === 1 && page > 1) {
@@ -186,7 +187,7 @@ export default function Garage() {
         selected={cars.find((c) => c.id === selectedId) || null}
         onUpdateSelected={handleUpdateSelected}
       />
-
+      
       <CarList
         cars={cars}
         selectedId={selectedId}

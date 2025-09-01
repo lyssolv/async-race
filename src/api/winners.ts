@@ -85,3 +85,12 @@ export async function listWinnersWithCars(
 
   return { rows, total };
 }
+
+export async function deleteWinner(id: number) {
+  try {
+    await api<void>(`/winners/${id}`, { method: 'DELETE' });
+  } catch (e: any) {
+    if (e instanceof Error && /^404\b/.test(e.message)) return;
+    throw e;
+  }
+}
