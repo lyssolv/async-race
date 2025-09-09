@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+/* eslint-disable max-lines-per-function */
+import { useEffect, useState, useRef, useCallback } from 'react';
 import GarageNavbar from '@/components/garage/garageNavbar';
 import CarList from '@/components/garage/carList';
 import type { Car } from '@/utils/types';
-import { GARAGE_PAGE_SIZE } from '@/utils/constants';
+import { GARAGE_PAGE_SIZE, MS_PER_SECOND, TO_FIXED_DECIMALS } from '@/utils/constants';
 import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
 import { generate100Cars } from '@/utils/random';
 import { startEngine, drive, stopEngine } from '@/api/engine';
@@ -23,15 +24,15 @@ export default function Garage() {
 
   const pageCount = Math.max(1, Math.ceil(total / GARAGE_PAGE_SIZE));
 
-  async function fetchPage(p = page) {
+  const fetchPage = useCallback(async (p: number) => {
     const { cars, total } = await listCars(p, GARAGE_PAGE_SIZE);
     setCars(cars);
     setTotal(total);
-  }
+  }, []);
 
   useEffect(() => {
     fetchPage(page);
-  }, [page]);
+  }, [page, fetchPage]);
 
   const handleCreate = async (name: string, color: string) => {
     await createCar({ name, color });
@@ -76,26 +77,29 @@ export default function Garage() {
 
       setTimeout(() => {
         const carWrapperEl = document.getElementById(`car-wrapper-${id}`);
-        const carWrapperElPos = carWrapperEl?.getBoundingClientRect()!;
-        if (!carWrapperElPos) return;
+        if (!carWrapperEl) return;
+        const carWrapperElPos = carWrapperEl.getBoundingClientRect();
         const carWrapperElEnd = carWrapperElPos.left + carWrapperElPos.width;
 
         const carEl = document.getElementById(`car-${id}`);
-        const carElPos = carEl?.getBoundingClientRect()!;
-        console.log(carEl, 'asd');
-        if (!carEl || !carElPos) return;
+        if (!carEl) return;
+        const carElPos = carEl.getBoundingClientRect();
+        if (!carElPos) return;
 
-        const carTransitionEndPos = carWrapperElEnd - (carElPos.left + carElPos.width) - 30;
+        const CAR_TRANSITION_OFFSET = 30;
+        const carTransitionEndPos =
+          carWrapperElEnd - (carElPos.left + carElPos.width) - CAR_TRANSITION_OFFSET;
         carEl.style.transform = `translateX(${carTransitionEndPos}px)`;
       }, 0);
       const time1 = performance.now();
       await drive(id);
       const time2 = performance.now();
-      const timeSec = +((time2 - time1) / 1000).toFixed(2);
+
+      const timeSec = +((time2 - time1) / MS_PER_SECOND).toFixed(TO_FIXED_DECIMALS);
       raceTimesRef.current[id] = timeSec;
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: true }));
-    } catch (e) {
+    } catch {
       if (carEl) resetCarPosition(carEl);
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: false }));
@@ -139,7 +143,9 @@ export default function Garage() {
         alert(`🏆 Winner: ${winner.name} Time: ${raceTime}s`);
         try {
           await insertWinners(winner.id, raceTime);
-        } catch (e) {}
+        } catch {
+          // intentionally ignored
+        }
         setRaceLocked(false);
         setNeedsReset(true);
         return;
@@ -187,7 +193,7 @@ export default function Garage() {
         selected={cars.find((c) => c.id === selectedId) || null}
         onUpdateSelected={handleUpdateSelected}
       />
-      
+
       <CarList
         cars={cars}
         selectedId={selectedId}

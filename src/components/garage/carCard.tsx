@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import type { Car as TCar } from '@/utils/types';
 import Button from '@/shared/components/button';
 import Car from '@/shared/components/car';

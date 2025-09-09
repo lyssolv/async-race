@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "incremental": true,
     "target": "ES2023",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "types": ["vite/client"],
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -20,14 +22,19 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    "useUnknownInCatchVariables": true,
+    "useDefineForClassFields": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
 
+    /* Routing */
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

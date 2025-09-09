@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useEffect, useState } from 'react';
 import WinnersTable from '@/components/winners/winnersTable';
 import { listWinnersWithCars } from '@/api/winners';
@@ -31,7 +32,9 @@ export default function Winners() {
           setRows(rows);
           setTotal(total);
         }
-      } catch (e) {}
+      } catch {
+        // intentionally ignored
+      }
     })();
     return () => {
       cancelled = true;

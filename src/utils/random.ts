@@ -1,4 +1,5 @@
 import { carBrands } from './constants/carBrand';
+import { MAX_COLOR_VALUE, HEX_RADIX, HEX_COLOR_LENGTH } from './constants/index';
 
 export const getRandomFromArray = <T>(arr: T[]) => {
   const randomIndex = Math.floor(Math.random() * arr.length);
@@ -6,9 +7,9 @@ export const getRandomFromArray = <T>(arr: T[]) => {
 };
 
 export const generateRandomColor = () =>
-  `#${Math.floor(Math.random() * 0xffffff)
-    .toString(16)
-    .padStart(6, '0')}`;
+  `#${Math.floor(Math.random() * MAX_COLOR_VALUE)
+    .toString(HEX_RADIX)
+    .padStart(HEX_COLOR_LENGTH, '0')}`;
 
 export const generate100Cars = () =>
   Array.from({ length: 100 }, () => {

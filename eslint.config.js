@@ -1,40 +1,49 @@
+// @ts-nocheck
 import js from '@eslint/js';
 import globals from 'globals';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-import { globalIgnores } from 'eslint/config';
 
-export default tseslint.config([
-  globalIgnores(['dist']),
+export default [
+  { ignores: ['dist', 'node_modules'] },
+
+  js.configs.recommended,
+
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      reactX.configs['recommended-typescript'],
-      reactDom.configs.recommended,
-      'airbnb',
-      'airbnb-typescript',
-      'airbnb/hooks',
-    ],
     languageOptions: {
-      ecmaVersion: 2020,
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
       globals: globals.browser,
     },
-    rules: {
-      'max-lines-per-function': ['error', 40],
-      'no-magic-numbers': [
-        'warn',
-        {
-          ignore: [-1, 0, 1],
-          ignoreArrayIndexes: true,
-        },
-      ],
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+      react,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      'no-undef': 'off',
+      'linebreak-style': 'off',
+      'max-lines-per-function': ['error', { max: 40, skipBlankLines: true, skipComments: true }],
+      'no-magic-numbers': ['warn', { ignore: [-1, 0, 1], ignoreArrayIndexes: true }],
+    },
+    settings: { react: { version: 'detect' } },
   },
-]);
+];

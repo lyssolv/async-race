@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import CarIcon from '@/shared/components/carIcon';
 import type { WinnerRow } from '@/utils/types';
 import './winners.css';

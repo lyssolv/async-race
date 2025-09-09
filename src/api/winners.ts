@@ -1,10 +1,10 @@
 import { api } from './http';
 import type { Car, Winner, WinnerRow, ListParams } from '@/utils/types';
-import { BASE_URL } from '@/utils/constants/index';
+import { BASE_URL, HTTP_STATUS_NOT_FOUND, WINNERS_PAGE_SIZE } from '@/utils/constants/index';
 
 export async function getWinner(id: number): Promise<Winner | null> {
   const res = await fetch(`${BASE_URL}/winners/${id}`);
-  if (res.status === 404) return null;
+  if (res.status === HTTP_STATUS_NOT_FOUND) return null;
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   return (await res.json()) as Winner;
 }
@@ -24,7 +24,7 @@ export function updateWinner(id: number, data: Partial<Winner>) {
 }
 
 export async function listWinnersRaw(params: ListParams) {
-  const { page = 1, limit = 10, sort, order } = params ?? {};
+  const { page = 1, limit = WINNERS_PAGE_SIZE, sort, order } = params ?? {};
   const qs = new URLSearchParams({
     _page: String(page),
     _limit: String(limit),
@@ -65,7 +65,7 @@ export async function listWinnersWithCars(
   params: ListParams = {},
 ): Promise<{ rows: WinnerRow[]; total: number }> {
   const { winners, total, page, limit } = await listWinnersRaw(params);
-  const ids = winners.map((w) => w.id);
+  const ids = winners.map((winner) => winner.id);
   const cars = await fetchCarsByIds(ids);
   const carMap = new Map(cars.map((c) => [c.id, c]));
 
@@ -89,7 +89,7 @@ export async function listWinnersWithCars(
 export async function deleteWinner(id: number) {
   try {
     await api<void>(`/winners/${id}`, { method: 'DELETE' });
-  } catch (e: any) {
+  } catch (e) {
     if (e instanceof Error && /^404\b/.test(e.message)) return;
     throw e;
   }

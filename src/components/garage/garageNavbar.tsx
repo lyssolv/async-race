@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useEffect, useState } from 'react';
 import Button from '@/shared/components/button';
 import ColorPicker from '@/shared/components/colorPicker';

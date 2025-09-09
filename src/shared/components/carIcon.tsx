@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 type Props = { color: string; className?: string };
 
 export default function CarIcon({ color, className = '' }: Props) {

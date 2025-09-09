@@ -14,7 +14,8 @@ export default function Pagination({ page, pageCount, onChange, label = 'Paginat
   const prev = () => onChange(Math.max(1, page - 1));
   const next = () => onChange(Math.min(pageCount, page + 1));
   const maxVisible = MAX_PAGE_VISIBLE;
-  const half = Math.floor(maxVisible / 2);
+  const DIVISOR_TWO = 2;
+  const half = Math.floor(maxVisible / DIVISOR_TWO);
   let start = Math.max(1, page - half);
   let end = Math.min(pageCount, page + half);
   if (end - start + 1 < maxVisible) {

@@ -1,8 +1,11 @@
 import { api } from './http';
 import type { Car } from '@/utils/types';
-import { BASE_URL } from '@/utils/constants/index';
+import { BASE_URL, GARAGE_PAGE_SIZE } from '@/utils/constants/index';
 
-export async function listCars(page = 1, limit = 7): Promise<{ cars: Car[]; total: number }> {
+export async function listCars(
+  page = 1,
+  limit = GARAGE_PAGE_SIZE,
+): Promise<{ cars: Car[]; total: number }> {
   const url = `${BASE_URL}/garage?_page=${page}&_limit=${limit}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error('Failed to load cars');
