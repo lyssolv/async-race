@@ -42,6 +42,14 @@ export default function Garage() {
     fetchPage(page);
   }, [page, fetchPage]);
 
+  const handlePageChange = useCallback(
+    (p: number) => {
+      if (raceLocked) return;
+      setPage(p);
+    },
+    [raceLocked],
+  );
+
   const carsRef = useRef<Car[]>(cars);
   useEffect(() => {
     carsRef.current = cars;
@@ -280,7 +288,13 @@ export default function Garage() {
         isFinished={isFinished}
         raceLocked={raceLocked}
       />
-      <Pagination page={page} pageCount={pageCount} onChange={setPage} label="Garage pagination" />
+      <Pagination
+        page={page}
+        pageCount={pageCount}
+        onChange={handlePageChange}
+        disabled={raceLocked}
+        label="Garage pagination"
+      />
       <footer className="garage-total" aria-live="polite">
         {`GARAGE (${total})`}
       </footer>
