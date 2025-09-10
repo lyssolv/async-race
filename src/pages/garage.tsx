@@ -7,7 +7,13 @@ import { GARAGE_PAGE_SIZE, MS_PER_SECOND, TO_FIXED_DECIMALS } from '@/utils/cons
 import { listCars, createCar, updateCar, deleteCar } from '@/api/cars';
 import { generate100Cars } from '@/utils/random';
 import { startEngine, drive, stopEngine } from '@/api/engine';
-import { getRowElems, resetCarPosition } from '@/utils/engine';
+import {
+  getRowElems,
+  resetCarPosition,
+  computeFinish,
+  getTranslateX,
+  freezeAtCurrentPosition,
+} from '@/utils/engine';
 import { insertWinners, deleteWinner } from '@/api/winners';
 import Pagination from '@/shared/components/pagination';
 
@@ -33,6 +39,60 @@ export default function Garage() {
   useEffect(() => {
     fetchPage(page);
   }, [page, fetchPage]);
+
+  const carsRef = useRef<Car[]>(cars);
+  useEffect(() => {
+    carsRef.current = cars;
+  }, [cars]);
+  const finishedRef = useRef<Record<number, boolean>>({});
+  useEffect(() => {
+    finishedRef.current = isFinished;
+  }, [isFinished]);
+  const raceTimesRef = useRef<Record<number, number>>({});
+  const resizeRafId = useRef<number | null>(null);
+
+  const handleResize = useCallback(() => {
+    if (resizeRafId.current !== null) return;
+    resizeRafId.current = requestAnimationFrame(() => {
+      resizeRafId.current = null;
+
+      const rows = document.querySelectorAll<HTMLElement>('article[data-carid]');
+      rows.forEach((row) => {
+        const carIdAttr = row.getAttribute('data-carid');
+        if (!carIdAttr) return;
+        const id = Number(carIdAttr);
+        if (Number.isNaN(id)) return;
+
+        const { track, carEl, finishEl } = getRowElems(id);
+        if (!track || !carEl || !finishEl) return;
+
+        const maxDistance = computeFinish(finishEl, carEl);
+        if (maxDistance <= 0) return;
+
+        const finished = !!finishedRef.current[id];
+        const translateX = getTranslateX(carEl);
+        const rawProgress = finished ? 1 : translateX / maxDistance;
+        const progress = Math.max(0, Math.min(1, rawProgress));
+
+        const prevTransition = carEl.style.transition;
+        carEl.style.transition = 'none';
+        carEl.style.transform = `translateX(${progress * maxDistance}px)`;
+        void carEl.offsetWidth;
+        carEl.style.transition = prevTransition;
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(handleResize);
+    return () => cancelAnimationFrame(id);
+  }, [cars, page, handleResize]);
 
   const handleCreate = async (name: string, color: string) => {
     await createCar({ name, color });
@@ -62,8 +122,9 @@ export default function Garage() {
 
   async function handleStartCar(id: number) {
     if (isStarting[id] || isDriving[id] || isFinished[id]) return;
-    const { tile, track, carEl } = getRowElems(id);
-    if (!tile || !track || !carEl) return;
+    const { track, carEl, finishEl } = getRowElems(id);
+    if (!track || !carEl || !finishEl) return;
+
     try {
       setIsStarting((state) => ({ ...state, [id]: true }));
 
@@ -73,34 +134,24 @@ export default function Garage() {
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: true }));
 
+      const maxDistance = computeFinish(finishEl, carEl);
       carEl.style.transition = `${durationMs}ms linear`;
 
-      setTimeout(() => {
-        const carWrapperEl = document.getElementById(`car-wrapper-${id}`);
-        if (!carWrapperEl) return;
-        const carWrapperElPos = carWrapperEl.getBoundingClientRect();
-        const carWrapperElEnd = carWrapperElPos.left + carWrapperElPos.width;
-
-        const carEl = document.getElementById(`car-${id}`);
-        if (!carEl) return;
-        const carElPos = carEl.getBoundingClientRect();
-        if (!carElPos) return;
-
-        const CAR_TRANSITION_OFFSET = 30;
-        const carTransitionEndPos =
-          carWrapperElEnd - (carElPos.left + carElPos.width) - CAR_TRANSITION_OFFSET;
-        carEl.style.transform = `translateX(${carTransitionEndPos}px)`;
-      }, 0);
-      const time1 = performance.now();
+      requestAnimationFrame(() => {
+        carEl.style.transform = `translateX(${maxDistance}px)`;
+      });
+      const timeBeforeDrive = performance.now();
       await drive(id);
-      const time2 = performance.now();
+      const timeAfterDrive = performance.now();
 
-      const timeSec = +((time2 - time1) / MS_PER_SECOND).toFixed(TO_FIXED_DECIMALS);
-      raceTimesRef.current[id] = timeSec;
+      const raceTime = +((timeAfterDrive - timeBeforeDrive) / MS_PER_SECOND).toFixed(
+        TO_FIXED_DECIMALS,
+      );
+      raceTimesRef.current[id] = raceTime;
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: true }));
     } catch {
-      if (carEl) resetCarPosition(carEl);
+      if (carEl) freezeAtCurrentPosition(carEl);
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: false }));
@@ -119,16 +170,6 @@ export default function Garage() {
       setIsFinished((state) => ({ ...state, [id]: false }));
     }
   }
-
-  const carsRef = useRef<Car[]>(cars);
-  useEffect(() => {
-    carsRef.current = cars;
-  }, [cars]);
-  const finishedRef = useRef<Record<number, boolean>>({});
-  useEffect(() => {
-    finishedRef.current = isFinished;
-  }, [isFinished]);
-  const raceTimesRef = useRef<Record<number, number>>({});
 
   async function startRaceForPage() {
     if (raceLocked || needsReset) return;

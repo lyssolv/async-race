@@ -3,6 +3,7 @@ import type { Car as TCar } from '@/utils/types';
 import Button from '@/shared/components/button';
 import Car from '@/shared/components/car';
 import './carCard.css';
+import { isCarAtStart } from '@/utils/engine';
 
 type Props = {
   car: TCar;
@@ -30,8 +31,9 @@ const CarCard = ({
   isFinished = false,
   raceLocked = false,
 }: Props) => {
+  const atStart = isCarAtStart(car.id);
   const disableStart = raceLocked || isStarting || isDriving || isFinished;
-  const disableStop = raceLocked || (!isStarting && !isDriving && !isFinished);
+  const disableStop = raceLocked || (!isStarting && !isDriving && !isFinished && atStart);
   const disableCRUD = raceLocked;
 
   return (
