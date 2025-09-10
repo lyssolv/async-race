@@ -49,3 +49,27 @@ export function isCarAtStart(id: number): boolean {
   if (!carEl) return true;
   return Math.abs(getTranslateX(carEl)) < start;
 }
+
+export function waitForTransformEnd(el: HTMLElement, durationMs: number): Promise<void> {
+  return new Promise((resolve) => {
+    let done = false;
+    const fallbackTimer = 50;
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === el && (e.propertyName === 'transform' || e.propertyName === 'all')) {
+        done = true;
+        el.removeEventListener('transitionend', onEnd);
+        resolve();
+      }
+    };
+    el.addEventListener('transitionend', onEnd, { once: true });
+    setTimeout(
+      () => {
+        if (!done) {
+          el.removeEventListener('transitionend', onEnd);
+          resolve();
+        }
+      },
+      Math.max(0, durationMs + fallbackTimer),
+    );
+  });
+}

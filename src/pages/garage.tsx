@@ -13,6 +13,7 @@ import {
   computeFinish,
   getTranslateX,
   freezeAtCurrentPosition,
+  waitForTransformEnd,
 } from '@/utils/engine';
 import { insertWinners, deleteWinner } from '@/api/winners';
 import Pagination from '@/shared/components/pagination';
@@ -51,6 +52,9 @@ export default function Garage() {
   }, [isFinished]);
   const raceTimesRef = useRef<Record<number, number>>({});
   const resizeRafId = useRef<number | null>(null);
+  const animDoneRef = useRef<Record<number, Promise<void> | null>>({});
+  const raceIdRef = useRef(0);
+  const winnerRafRef = useRef<number | null>(null);
 
   const handleResize = useCallback(() => {
     if (resizeRafId.current !== null) return;
@@ -122,40 +126,49 @@ export default function Garage() {
   };
 
   async function handleStartCar(id: number) {
+    const myRace = raceIdRef.current;
     if (isStarting[id] || isDriving[id] || isFinished[id]) return;
     const { track, carEl, finishEl } = getRowElems(id);
     if (!track || !carEl || !finishEl) return;
 
     try {
       setIsStarting((state) => ({ ...state, [id]: true }));
-
       const { velocity, distance } = await startEngine(id);
+      if (raceIdRef.current !== myRace) return;
       const durationMs = Math.max(1, Math.round(distance / velocity));
 
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: true }));
 
       const maxDistance = computeFinish(finishEl, carEl);
-      carEl.style.transition = `${durationMs}ms linear`;
+      carEl.style.transition = `transform ${durationMs}ms linear`;
+      animDoneRef.current[id] = waitForTransformEnd(carEl, durationMs);
 
       requestAnimationFrame(() => {
-        carEl.style.transform = `translateX(${maxDistance}px)`;
+        if (raceIdRef.current === myRace) {
+          carEl.style.transform = `translateX(${maxDistance}px)`;
+        }
       });
+
       const timeBeforeDrive = performance.now();
       await drive(id);
+      if (raceIdRef.current !== myRace) return;
       const timeAfterDrive = performance.now();
 
       const raceTime = +((timeAfterDrive - timeBeforeDrive) / MS_PER_SECOND).toFixed(
         TO_FIXED_DECIMALS,
       );
       raceTimesRef.current[id] = raceTime;
+
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: true }));
     } catch {
       if (carEl) freezeAtCurrentPosition(carEl);
+
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: false }));
       setIsFinished((state) => ({ ...state, [id]: false }));
+      animDoneRef.current[id] = null;
     }
   }
 
@@ -176,12 +189,24 @@ export default function Garage() {
     if (raceLocked || needsReset) return;
     setRaceLocked(true);
 
+    const myRace = ++raceIdRef.current;
+    cars.forEach((car) => {
+      animDoneRef.current[car.id] = null;
+    });
     cars.forEach((car) => handleStartCar(car.id));
 
     const checkWinner = async () => {
+      if (raceIdRef.current !== myRace) return;
       const winner = carsRef.current.find((car) => finishedRef.current[car.id]);
       if (winner) {
         const raceTime = raceTimesRef.current[winner.id];
+        const animDone = animDoneRef.current[winner.id];
+        if (animDone) {
+          await animDone;
+          await new Promise<void>((r) => requestAnimationFrame(() => r()));
+          if (raceIdRef.current !== myRace) return;
+        }
+
         alert(`🏆 Winner: ${winner.name} Time: ${raceTime}s`);
         try {
           await insertWinners(winner.id, raceTime);
@@ -192,12 +217,18 @@ export default function Garage() {
         setNeedsReset(true);
         return;
       }
-      requestAnimationFrame(checkWinner);
+      winnerRafRef.current = requestAnimationFrame(checkWinner);
     };
-    requestAnimationFrame(checkWinner);
+    winnerRafRef.current = requestAnimationFrame(checkWinner);
   }
 
   function resetRaceForPage() {
+    raceIdRef.current++;
+    if (winnerRafRef.current !== null) {
+      cancelAnimationFrame(winnerRafRef.current);
+      winnerRafRef.current = null;
+    }
+
     setRaceLocked(false);
     setNeedsReset(false);
 
@@ -208,6 +239,7 @@ export default function Garage() {
       setIsStarting((s) => ({ ...s, [car.id]: false }));
       setIsDriving((s) => ({ ...s, [car.id]: false }));
       setIsFinished((s) => ({ ...s, [car.id]: false }));
+      animDoneRef.current[car.id] = null;
       stopEngine(car.id).catch(() => {});
     });
   }
@@ -250,7 +282,7 @@ export default function Garage() {
       />
       <Pagination page={page} pageCount={pageCount} onChange={setPage} label="Garage pagination" />
       <footer className="garage-total" aria-live="polite">
-        {total === 0 ? '0' : `GARAGE (${total})`}
+        {`GARAGE (${total})`}
       </footer>
     </section>
   );

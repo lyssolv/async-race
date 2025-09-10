@@ -32,7 +32,7 @@ const CarCard = ({
   raceLocked = false,
 }: Props) => {
   const atStart = isCarAtStart(car.id);
-  const disableStart = raceLocked || isStarting || isDriving || isFinished;
+  const disableStart = raceLocked || isStarting || isDriving || isFinished || !atStart;
   const disableStop = raceLocked || (!isStarting && !isDriving && !isFinished && atStart);
   const disableCRUD = raceLocked;
 
