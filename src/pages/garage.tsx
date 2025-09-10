@@ -16,6 +16,7 @@ import {
 } from '@/utils/engine';
 import { insertWinners, deleteWinner } from '@/api/winners';
 import Pagination from '@/shared/components/pagination';
+import '@/components/garage/carList.css';
 
 export default function Garage() {
   const [cars, setCars] = useState<Car[]>([]);
@@ -248,6 +249,9 @@ export default function Garage() {
         raceLocked={raceLocked}
       />
       <Pagination page={page} pageCount={pageCount} onChange={setPage} label="Garage pagination" />
+      <footer className="garage-total" aria-live="polite">
+        {total === 0 ? '0' : `GARAGE (${total})`}
+      </footer>
     </section>
   );
 }
