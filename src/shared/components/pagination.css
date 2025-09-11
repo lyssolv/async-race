@@ -16,3 +16,8 @@
 .pagination button.active {
   background: #9c19e0;
 }
+
+.pagination .ellipsis {
+  padding: 0 2px;
+  user-select: none;
+}
