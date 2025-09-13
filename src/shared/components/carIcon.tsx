@@ -3,13 +3,7 @@ type Props = { color: string; className?: string };
 
 export default function CarIcon({ color, className = '' }: Props) {
   return (
-    <svg
-      viewBox="0 0 600 298"
-      role="img"
-      aria-label="Car"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 600 298" role="img" aria-label="Car" className={className}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -4,6 +4,7 @@ import Button from '@/shared/components/button';
 import Car from '@/shared/components/car';
 import './carCard.css';
 import { isCarAtStart } from '@/utils/engine';
+import { PlayIcon, StopIcon } from '@/shared/components/icons';
 
 type Props = {
   car: TCar;
@@ -64,8 +65,9 @@ const CarCard = ({
               onClick={onStart}
               aria-label="Start engine"
               disabled={disableStart}
+              className="btn-icon"
             >
-              A
+              <PlayIcon className="icon" />
             </Button>
             <Button
               size="sm"
@@ -73,8 +75,9 @@ const CarCard = ({
               onClick={onStop}
               aria-label="Stop engine"
               disabled={disableStop}
+              className="btn-icon"
             >
-              B
+              <StopIcon className="icon" />
             </Button>
           </div>
           <div className="tile-car" data-tilecar>
