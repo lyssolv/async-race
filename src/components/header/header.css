@@ -20,7 +20,7 @@
 
 .one {
   color: #24e7f2;
-  border: 0.2rem solid #89d5d9;
+  border: 0.2rem solid #24e7f2;
   border-radius: 0.6rem;
 }
 
@@ -44,7 +44,12 @@
   display: block;
 }
 
-.nav-link.active {
-  outline: 0.15rem solid #08363c;
-  box-shadow: 0 0 1rem rgba(126, 240, 255, 0.08);
+.nav-link.one[aria-current='page'] {
+  background: linear-gradient(90deg, #830dc3, #9acbd1);
+  text-shadow: 1px 1px 0 black;
+}
+
+.nav-link.two[aria-current='page'] {
+  background: linear-gradient(90deg, #24e7f2, #dbb1f0);
+  text-shadow: 1px 1px 0 black;
 }

@@ -7,11 +7,10 @@ type Flags = Record<number, boolean>;
 type Props = {
   cars: Car[];
   selectedId: number | null;
-  onSelect: (id: number) => void;
+  onSelect: (id: number | null) => void;
   onDelete: (id: number) => void;
   onStart: (id: number) => void;
   onStop: (id: number) => void;
-
   isStarting?: Flags;
   isDriving?: Flags;
   isFinished?: Flags;
@@ -35,21 +34,24 @@ export default function CarList({
   }
   return (
     <ul className="car-list">
-      {cars.map((car) => (
-        <CarCard
-          key={car.id}
-          car={car}
-          selected={selectedId === car.id}
-          onSelect={() => onSelect(car.id)}
-          onDelete={() => onDelete(car.id)}
-          onStart={() => onStart(car.id)}
-          onStop={() => onStop(car.id)}
-          isStarting={!!isStarting[car.id]}
-          isDriving={!!isDriving[car.id]}
-          raceLocked={raceLocked}
-          isFinished={!!isFinished[car.id]}
-        />
-      ))}
+      {cars.map((car) => {
+        const isSelected = selectedId === car.id;
+        return (
+          <CarCard
+            key={car.id}
+            car={car}
+            selected={isSelected}
+            onSelect={() => onSelect(isSelected ? null : car.id)}
+            onDelete={() => onDelete(car.id)}
+            onStart={() => onStart(car.id)}
+            onStop={() => onStop(car.id)}
+            isStarting={!!isStarting[car.id]}
+            isDriving={!!isDriving[car.id]}
+            raceLocked={raceLocked}
+            isFinished={!!isFinished[car.id]}
+          />
+        );
+      })}
     </ul>
   );
 }

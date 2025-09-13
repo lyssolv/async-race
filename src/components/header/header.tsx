@@ -8,6 +8,7 @@ const Header: React.FC = () => {
       <nav className="nav-left">
         <NavLink
           to="/garage"
+          end
           className={({ isActive }) => `nav-link one${isActive ? ' active' : ''}`}
         >
           GARAGE

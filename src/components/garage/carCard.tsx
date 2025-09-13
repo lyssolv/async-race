@@ -12,7 +12,6 @@ type Props = {
   onDelete: () => void;
   onStart: () => void;
   onStop: () => void;
-
   isStarting?: boolean;
   isDriving?: boolean;
   raceLocked?: boolean;
@@ -48,10 +47,11 @@ const CarCard = ({
             <Button
               color="blue"
               onClick={onSelect}
-              aria-label="Select car for editing"
+              aria-label={selected ? 'Unselect car' : 'Select car for editing'}
+              aria-pressed={selected}
               disabled={disableCRUD}
             >
-              SELECT
+              {selected ? 'CANCEL' : 'SELECT'}
             </Button>
             <Button onClick={onDelete} aria-label="Delete car" disabled={disableCRUD}>
               REMOVE

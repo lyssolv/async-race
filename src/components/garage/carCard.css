@@ -69,3 +69,7 @@
 .car-tile button {
   border-radius: 6px;
 }
+
+.car-row.selected {
+  border: 2.5px solid #aae8f6;
+}
