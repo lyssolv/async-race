@@ -143,6 +143,7 @@ export default function Garage() {
     if (isStarting[id] || isDriving[id] || isFinished[id]) return;
     const { track, carEl, finishEl } = getRowElems(id);
     if (!track || !carEl || !finishEl) return;
+    track.classList.remove('is-broken');
 
     try {
       setIsStarting((state) => ({ ...state, [id]: true }));
@@ -177,6 +178,8 @@ export default function Garage() {
       setIsFinished((state) => ({ ...state, [id]: true }));
     } catch {
       if (carEl) freezeAtCurrentPosition(carEl);
+      const { track } = getRowElems(id);
+      if (track) track.classList.add('is-broken');
 
       setIsStarting((state) => ({ ...state, [id]: false }));
       setIsDriving((state) => ({ ...state, [id]: false }));
@@ -186,8 +189,10 @@ export default function Garage() {
   }
 
   async function handleStopCar(id: number) {
-    const { carEl } = getRowElems(id);
+    const { track, carEl } = getRowElems(id);
     if (!carEl) return;
+    if (track) track.classList.remove('is-broken');
+
     resetCarPosition(carEl);
     try {
       await stopEngine(id);
@@ -247,8 +252,9 @@ export default function Garage() {
     setNeedsReset(false);
 
     cars.forEach((car) => {
-      const { carEl } = getRowElems(car.id);
+      const { track, carEl } = getRowElems(car.id);
       if (carEl) resetCarPosition(carEl);
+      if (track) track.classList.remove('is-broken');
 
       setIsStarting((s) => ({ ...s, [car.id]: false }));
       setIsDriving((s) => ({ ...s, [car.id]: false }));
