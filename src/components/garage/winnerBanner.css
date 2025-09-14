@@ -1,0 +1,53 @@
+.winner-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1.5 / 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.214);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  text-transform: uppercase;
+  border: 2px solid #9c19e0;
+}
+
+.winner-banner__title {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+  color: #24e7f2;
+}
+
+.winner-banner__text {
+  font-size: 25px;
+}
+
+.winner-banner__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.winner-banner__close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  color: #fff;
+  border: 0;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* @media (max-width: 300px) {
+  .winner-banner {
+    padding: 16px;
+  }
+} */

@@ -10,3 +10,4 @@ export const HEX_COLOR_LENGTH = 6;
 export const MS_PER_SECOND = 1000;
 export const TO_FIXED_DECIMALS = 2;
 export const DIVISOR_TWO = 2;
+export const BANNER_TIMER = 4000;

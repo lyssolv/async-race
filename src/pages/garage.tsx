@@ -17,6 +17,7 @@ import {
 } from '@/utils/engine';
 import { insertWinners, deleteWinner } from '@/api/winners';
 import Pagination from '@/shared/components/pagination';
+import { WinnerBanner } from '@/components/garage/winnerBanner';
 import '@/components/garage/carList.css';
 
 export default function Garage() {
@@ -29,6 +30,9 @@ export default function Garage() {
   const [isFinished, setIsFinished] = useState<Record<number, boolean>>({});
   const [raceLocked, setRaceLocked] = useState(false);
   const [needsReset, setNeedsReset] = useState(false);
+  const [winnerInfo, setWinnerInfo] = useState<null | { id: number; name: string; time: number }>(
+    null,
+  );
 
   const pageCount = Math.max(1, Math.ceil(total / GARAGE_PAGE_SIZE));
 
@@ -45,6 +49,7 @@ export default function Garage() {
   const handlePageChange = useCallback(
     (p: number) => {
       if (raceLocked) return;
+      setWinnerInfo(null);
       setPage(p);
     },
     [raceLocked],
@@ -196,6 +201,7 @@ export default function Garage() {
   async function startRaceForPage() {
     if (raceLocked || needsReset) return;
     setRaceLocked(true);
+    setWinnerInfo(null);
 
     const myRace = ++raceIdRef.current;
     cars.forEach((car) => {
@@ -215,7 +221,7 @@ export default function Garage() {
           if (raceIdRef.current !== myRace) return;
         }
 
-        alert(`🏆 Winner: ${winner.name} Time: ${raceTime}s`);
+        setWinnerInfo({ id: winner.id, name: winner.name, time: raceTime });
         try {
           await insertWinners(winner.id, raceTime);
         } catch {
@@ -236,7 +242,7 @@ export default function Garage() {
       cancelAnimationFrame(winnerRafRef.current);
       winnerRafRef.current = null;
     }
-
+    setWinnerInfo(null);
     setRaceLocked(false);
     setNeedsReset(false);
 
@@ -298,6 +304,7 @@ export default function Garage() {
       <footer className="garage-total" aria-live="polite">
         {`GARAGE (${total})`}
       </footer>
+      <WinnerBanner winner={winnerInfo} onClose={() => setWinnerInfo(null)} />
     </section>
   );
 }
